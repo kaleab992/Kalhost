@@ -1,0 +1,25 @@
+# Render Blueprint - New > Blueprint, pick this repo.
+services:
+  - type: web
+    name: kalpro-hosting-bot
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free                 # free = data is wiped on every deploy/restart. For permanent data use
+                               # "starter" and enable the disk block below.
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: BOT_TOKEN         # your bot token from @BotFather (set it in the Render dashboard)
+        sync: false
+      - key: OWNER_ID          # your numeric Telegram user id
+        sync: false
+      - key: ADMIN_ID          # optional second admin (defaults to OWNER_ID)
+        sync: false
+      - key: ADMIN_PASSWORD    # password for the /admin web panel
+        generateValue: true
+      - key: DATA_DIR
+        value: /data
+    # disk:                    # paid plans only - keeps users, files and bots across deploys
+    #   name: kalpro-data
+    #   mountPath: /data
+    #   sizeGB: 5
